@@ -1,0 +1,50 @@
+<section id="vendor__">
+    <center>
+    <div class="vendor__container">
+        <form class="vendor__form" action="includes/controllers/general.php" method="post">
+        <div class="vendor__formContainer">
+            <h2>Add Vendor</h2>
+            <ul>
+                <li>Software Developers: receive an API key</li>
+                <li>Affiliates: Doctor offices, medical facilities, ambulance companies</li>
+            </ul>
+            <select name="vendor_type">
+                <option value="software">Software Developers</option>
+                <option value="affiliate">Medical Affiliate</option>
+            </select>
+            <div class="vendor__formInput">
+                <label for="vendor_name">Company Name: </label>
+                <input type="text" name="vendor_name" value='' required>
+            </div>
+            <div class="vendor__formInput">
+                <label for="billing_info">Billing: Name and Address</label>
+                <br />
+                <textarea name="billing_info" cols="20" rows="5"></textarea>
+            </div>
+            <br />
+            <div class="vendor__formInput">
+                <label for="due_date">Invoice Date: </label>
+                <ul>
+                    <li>If before the 15th, the invoice date is the 5th of every month</li>
+                    <li>If before the 15th, the invoice date is the 21st of every month</li>
+                </ul>
+                <select name="due_date">
+                    <option value="5th">5th of every month</option>
+                    <option value="21st">21st of every month</option>
+                </select>
+            </div>
+            <br />
+            <div class="vendor__formInput">
+                <label for="vendor_name">Invoice Status: </label>
+                <select name="invoice_status">
+                    <option value="paid">Paid</option>
+                    <option value="paid">Invoiced</option>
+                </select>
+            </div>
+            <input type="submit" name="vendor__formButton">
+        </div>
+        </form>
+    </div>
+    <h2>Here, we should add an auto-complete search to find the vendor and update invoice status if they haven't paid.</h2>
+    </center>
+  </section>

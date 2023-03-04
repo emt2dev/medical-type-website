@@ -1,0 +1,26 @@
+<section class="support__">
+    <div id="request__sr" class="action__buttonHide">Click to ask for help</div>
+
+    <div class="support__container" style="display: none;">
+        <form action="http://localhost/basic_workshop/includes/config/controllers/user.php" method="post" class="support__form">
+            <div class="support__formContainer">
+                <h2>Request help</h2>
+
+                <div class="support__formInput">
+                    <label class="support__formLabel" for="support___formReason">Reason</label>
+                    <select name="support___formReason">
+                        <option value="order">Order</option>
+                        <option value="product">Product</option>
+                        <option value="else">Other</option>
+                    </select>
+                </div>
+                <div class="support__formInput">
+                    <label for="support___formComments">Please tell us more</label><br />
+                        <textarea maxlength="100" name="support___formComments" id="" cols="30" rows="5"></textarea>
+                    </select>
+                </div>
+                <input type="submit" name="support__formButton">
+            </div>
+        </form>
+    </div>
+</section>

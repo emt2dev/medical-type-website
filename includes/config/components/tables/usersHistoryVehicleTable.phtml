@@ -1,0 +1,103 @@
+<div>     
+    <br/>
+    <center><h1>My Vehicles</h1>
+    <table id='vehicle' class='table table-striped' style='width:50%'>
+        <thead>
+            <tr>
+                <th>Currently in vehicle?</th>
+                <th>VIN</th>
+                <th>Color</th>
+                <th>Plate</th>
+                <th>State</th>
+                <th>Engine</th>
+                <th>Type</th>
+                <th>Make</th>
+                <th>Insured?</th>
+            </tr>
+        </thead>
+
+        <tbody>
+<?php // Here we iterate through each row from the vehicle table to see which vehiclees were uploaded by the user.
+    $id = $_SESSION['id'];
+
+    $cVQ = $_SESSION['currentVehicleQuery'];
+    $vxA = $_SESSION['vehicleHistory'];
+
+    $vxA_test = array($_SESSION['vehicleHistory']);
+
+    if ($vxA_test[0] < 1) {
+        unset($vxA_test);
+        echo '<td></td>';
+        echo '<td> No records found... </td>';
+        echo '<td></td>';
+    } else {
+        $vxA = array($_SESSION['vehicleHistory']);
+
+        foreach ($vxA as $vxID) {
+
+            $query = "SELECT * FROM vehicles WHERE id='$vxID' ";
+
+            $result = mysqli_query($connection, $query);
+            
+            $row = $result->fetch_assoc();
+
+            unset($row['vehicleOccupants']);
+            unset($row['latitude']);
+            unset($row['longitude']);
+            unset($row['date_updated']);
+            unset($row['photo_path']);
+
+            echo '<tr>';
+                if ($row['id'] == $cVQ) {
+                    echo '
+                        <td>
+                            <form action="includes/controllers/general.php" method="post">
+                                <input type="number"  name="cVQ_num" value="' . $row['id']. '" hidden />
+                                <button type="submit" name="cVQ_Btn">Click to be out of vehicle</button>
+                            </form>
+                        </td>';
+                } else {
+                    echo '
+                        <td>
+                            <form action="includes/controllers/general.php" method="post">
+                                <input type="number" name="cVQ_num" value="' . $row['id']. '" hidden />
+                                <button type="submit" name="cVQ_Btn">Click to be placed here</button>
+                            </form>
+                        </td>';
+                }
+
+                echo '<td>'. $row['VIN'] .'</td>';
+                echo '<td>'. $row['color'] .'</td>';
+                echo '<td>'. $row['plate_num'] .'</td>';
+                echo '<td>'. $row['state'] .'</td>';
+                echo '<td>'. $row['engine'] .'</td>';
+                echo '<td>'. $row['type'] .'</td>';
+                echo '<td>'. $row['make'] .'</td>';
+                echo '<td>'. $row['insured_boolean'] .'</td>';
+            echo '</tr>';
+        };
+    } 
+?>
+        </tbody>
+        <tfoot>
+        <tr>
+            <th>Currently in vehicle?</th>
+            <th>VIN</th>
+            <th>Color</th>
+            <th>Plate</th>
+            <th>State</th>
+            <th>Engine</th>
+            <th>Type</th>
+            <th>Make</th>
+            <th>Insured?</th>
+        </tr>
+        </tfoot>
+    </table>
+    </center>
+</div>
+<script type='text/javascript'>
+$(document).ready(function () {
+$('#vehicle').DataTable();
+});
+</script>";
+?>

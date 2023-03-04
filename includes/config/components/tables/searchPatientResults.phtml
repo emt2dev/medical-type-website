@@ -1,0 +1,101 @@
+<div>     
+    <br/>
+    <center><h1>Searched Vehicle</h1>
+    <table id='searchAddress' class='table table-striped' style='width:50%'>
+        <thead>
+            <tr>
+                <th>View</th>
+                <!-- <th>Phone</th> -->
+                <th>First</th>
+                <th>Middle</th>
+                <th>Last</th>
+                <th>Street</th>
+                <th>Ctiy</th>
+                <th>State</th>
+                <th>Postal</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+<?php // Here we iterate through each row from the vehicle table to see which vehiclees were uploaded by the user.
+    $id = $_SESSION['id'];
+
+    $vxA = $_SESSION['patient_search'];
+
+    $vxA_test = array($_SESSION['patient_search']);
+
+    if ($vxA_test[0] < 1) {
+        unset($vxA_test);
+        echo '<td></td>';
+        echo '<td> No records found... </td>';
+        echo '<td></td>';
+    } else {
+        $vxA = array($_SESSION['patient_search']);
+
+        foreach ($vxA as $vxID) {
+
+            $query = "SELECT * FROM users WHERE id='$vxID' ";
+
+            $result = mysqli_query($connection, $query);
+            
+            $row = $result->fetch_assoc();
+
+            
+            echo '
+            <td>
+                <form action="includes/controllers/vendor.php" method="post">
+                    <input type="text" name="userId" value="' . $row['id'] . '" hidden />
+                    <button type="submit" name="view___PatientBtn" >View</button>
+                </form>
+            </td>';
+            // echo '<td>'. $row['phoneNumber'] .'</td>';
+            echo '<td>'. $row['firstName'] .'</td>';
+            echo '<td>'. $row['middleName'] .'</td>';
+            echo '<td>'. $row['lastName'] .'</td>';
+
+            echo '<td>'. $row['lastName'] .'</td>';
+
+            $hAQ = $row['homeAddressQuery'];
+
+            $query = "SELECT * FROM addresses WHERE addressQuery='$hAQ' ";
+
+            $result = mysqli_query($connection, $query);
+            
+            $row = $result->fetch_assoc();
+
+            echo '<td>' . $row['numericals'] . " " . $row['street'] . $row['apartment'] . '</td>';
+            echo '<td>'. $row['city'] .'</td>';
+            echo '<td>'. $row['state'] .'</td>';
+            echo '<td>'. $row['postal'] .'</td>';
+
+            echo '</tr>';
+        }
+    }
+?>
+
+
+
+        </tbody>
+        <tfoot>
+        <tr>
+            <th>View</th>
+                <!-- <th>Phone</th> -->
+                <th>First</th>
+                <th>Middle</th>
+                <th>Last</th>
+                <th>Street</th>
+                <th>Ctiy</th>
+                <th>State</th>
+                <th>Postal</th>
+        </tr>
+        </tfoot>
+    </table>
+    </center>
+</div>
+<script type='text/javascript'>
+$(document).ready(function () {
+$('#searchPatient').DataTable();
+});
+</script>";
+?>

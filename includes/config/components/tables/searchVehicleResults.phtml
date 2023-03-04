@@ -1,0 +1,142 @@
+<div>     
+    <br/>
+    <center><h1>Searched Vehicle</h1>
+    <table id='searchVehicle' class='table table-striped' style='width:50%'>
+        <thead>
+            <tr>
+                <th>Plate</th>
+                <th>State</th>
+                <th>Color</th>
+                <th>Engine</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+
+        <tbody>
+<?php // Here we iterate through each row from the vehicle table to see which vehiclees were uploaded by the user.
+    $id = $_SESSION['id'];
+
+    $vxA = $_SESSION['vehicle_search'];
+    // $vxA= "13";
+
+    $vxA_test = array($_SESSION['vehicle_search']);
+
+    if ($vxA_test[0] < 1) {
+        unset($vxA_test);
+        echo '<td></td>';
+        echo '<td> No records found... </td>';
+        echo '<td></td>';
+    } else {
+        $vxA = array($_SESSION['vehicle_search']);
+
+        foreach ($vxA as $vxID) {
+
+            $query = "SELECT * FROM vehicles WHERE id='$vxID' ";
+
+            $result = mysqli_query($connection, $query);
+            
+            $row = $result->fetch_assoc();
+
+            // unset($row['vehicleOccupants']);
+            unset($row['latitude']);
+            unset($row['longitude']);
+            unset($row['date_updated']);
+            unset($row['photo_path']);
+
+            echo '<tr>';
+                // if () {
+                //     echo 
+
+                // } else {
+
+                // }
+
+                // echo '<td>'. $row['VIN'] .'</td>';
+                echo '<td>'. $row['plate_num'] .'</td>';
+                echo '<td>'. $row['state'] .'</td>';
+                echo '<td>'. $row['color'] .'</td>';
+                echo '<td>'. $row['engine'] .'</td>';
+                echo '<td>'. $row['type'] .'</td>';
+                // echo '<td>'. $row['make'] .'</td>';
+                // echo '<td>'. $row['insured_boolean'] .'</td>';
+
+                echo '</tr>';
+
+                $idTest = array($row['vehicleOccupants']);
+                
+                if ($idTest[0] < 1) {
+                    unset($vxA_test);
+                    echo '<td></td>';
+                    echo '<td> No records found... </td>';
+                    echo '<td></td>';
+                } else {
+                    unset($idTest);
+                    $id = array($row['vehicleOccupants']);
+
+                    foreach ($id as $occupant) {
+                        $id = $row['vehicleOccupants'];
+                        $query = "SELECT * FROM users WHERE id='$id' ";
+
+                        $result = mysqli_query($connection, $query);
+                        
+                        $row = $result->fetch_assoc();
+
+                        echo '
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th>First</th>
+                                <th>Middle</th>
+                                <th>Last</th>
+                                <th>View</th>
+                            </tr>';
+                                echo '<td></td>';
+                                echo '<td></td>';
+                                echo '<td></td>';
+                                echo '<td></td>';
+                                echo '<td></td>';
+                                
+                                echo '<td>'. $row['firstName'] .'</td>';
+                                echo '<td>'. $row['middleName'] .'</td>';
+                                echo '<td>'. $row['lastName'] .'</td>';
+                                echo '
+                                    <td>
+                                        <form action="includes/controllers/vendor.php" method="post">
+                                            <input type="text" value="' . $row['id'] . '" hidden />
+                                            <button type="submit" name="view___PatientBtn" >View</button>
+                                        </form>
+                                    </td>';
+                        echo '</tr>';
+                }
+            }
+            echo '</tr>';
+        };
+    } 
+?>
+
+        </tbody>
+        <tfoot>
+        <tr>
+            <th>Plate</th>
+            <th>State</th>
+            <th>Color</th>
+            <th>Engine</th>
+            <th>Type</th>
+            <th>First</th>
+            <th>Middle</th>
+            <th>Last</th>
+            <th>View</th>
+        </tr>
+        </tfoot>
+    </table>
+    </center>
+</div>
+<script type='text/javascript'>
+$(document).ready(function () {
+$('#searchVehicle').DataTable();
+});
+</script>";
+?>

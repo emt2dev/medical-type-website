@@ -1,0 +1,49 @@
+Header set X-Frame-Options DENY
+
+# Deny access to .htaccess
+<Files .htaccess>
+Order allow,deny
+Deny from all
+</Files>
+
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [QSA,L]
+
+# Disable directory browsing 
+Options -Indexes
+
+# Hide the contents of directories
+IndexIgnore *
+
+# Hide files of type .zip, .jpg, .gif and .doc from listing
+IndexIgnore *.zip *.jpg *.gif *.doc
+
+# Deny access to files with extensions .ini, .psd, .log, .sh
+<FilesMatch "\.(ini|psd|log|sh)$">
+Order allow,deny
+Deny from all
+
+</FilesMatch>
+
+# Deny access to filenames starting with dot(.)
+<FilesMatch "env.php">
+Order allow,deny
+Deny from all
+</FilesMatch>
+
+# Deny access to filenames starting with dot(.)
+<FilesMatch "^\.">
+Order allow,deny
+Deny from all
+</FilesMatch>
+
+# Password protect files
+# <FilesMatch "^(execute|index|myfile|anotherfile)*$">
+# AuthType Basic
+# AuthName "Mypassword"
+# AuthUserFile <Full Server Path to .htpasswd file>/.htpasswd
+# Require valid-user
+# </FilesMatch>
+
+#https://www.opentechguides.com/how-to/article/apache/115/htaccess-file-dir-security.html#:~:text=Three%20most%20important%20security%20settings%20you%20should%20consider,...%203%203.%20Prevent%20access%20to%20certain%20files

@@ -1,0 +1,140 @@
+<div>     
+    <br/>
+    <center><h1>Searched Address</h1>
+    <table id='searchAddress' class='table table-striped' style='width:50%'>
+        <thead>
+            <tr>
+                <th>Street</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Postal</th>
+                <!-- <th>Photo</th> -->
+            </tr>
+        </thead>
+
+        <tbody>
+<?php // Here we iterate through each row from the vehicle table to see which vehiclees were uploaded by the user.
+    $id = $_SESSION['id'];
+
+    $vxA = $_SESSION['address_search'];
+    // $vxA= "13";
+
+    $vxA_test = array($_SESSION['address_search']);
+
+    if ($vxA_test[0] < 1) {
+        unset($vxA_test);
+        echo '<td></td>';
+        echo '<td> No records found... </td>';
+        echo '<td></td>';
+    } else {
+        $vxA = array($_SESSION['address_search']);
+
+        foreach ($vxA as $vxID) {
+
+            $query = "SELECT * FROM addresses WHERE id='$vxID' ";
+
+            $result = mysqli_query($connection, $query);
+            
+            $row = $result->fetch_assoc();
+
+            // unset($row['vehicleOccupants']);
+            unset($row['latitude']);
+            unset($row['longitude']);
+            unset($row['date_updated']);
+            unset($row['photo_path']);
+
+            echo '<tr>';
+                // if () {
+                //     echo 
+
+                // } else {
+
+                // }
+
+                    echo '<td>' . $row['numericals'] . " " . $row['street'] . $row['apartment'] . '</td>';
+                    echo '<td>'. $row['city'] .'</td>';
+                    echo '<td>'. $row['state'] .'</td>';
+                    echo '<td>'. $row['postal'] .'</td>';
+                    // echo '<td>'. $row['photo_path'] .'</td>';
+                echo '</tr>';
+
+                $idTest = array($row['addressOccupants']);
+                
+                if ($idTest[0] < 1) {
+                    unset($vxA_test);
+                    echo '<td></td>';
+                    echo '<td> No records found... </td>';
+                    echo '<td></td>';
+                } else {
+                    unset($idTest);
+                    $id = array($row['addressOccupants']);
+
+                    foreach ($id as $occupant) {
+                        $id = $row['addressOccupants'];
+                        $query = "SELECT * FROM users WHERE id='$id' ";
+
+                        $result = mysqli_query($connection, $query);
+                        
+                        $row = $result->fetch_assoc();
+
+                        echo '
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th>First</th>
+                                <th>Middle</th>
+                                <th>Last</th>
+                                <th>View</th>
+                            </tr>';
+                                echo '<td></td>';
+                                echo '<td></td>';
+                                echo '<td></td>';
+                                echo '<td></td>';
+                                echo '<td></td>';
+                                
+                                echo '<td>'. $row['firstName'] .'</td>';
+                                echo '<td>'. $row['middleName'] .'</td>';
+                                echo '<td>'. $row['lastName'] .'</td>';
+                                echo '
+                                    <td>
+                                        <form action="includes/controllers/vendor.php" method="post">
+                                            <input type="text" value="' . $row['id'] . '" hidden />
+                                            <button type="submit" name="view___PatientBtn" >View</button>
+                                        </form>
+                                    </td>';
+
+                        echo '</tr>';
+                }
+            }
+            echo '</tr>';
+        };
+    } 
+?>
+
+
+
+        </tbody>
+        <tfoot>
+        <tr>
+            <th>Street</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Postal</th>
+            <th>First</th>
+            <th>Middle</th>
+            <th>Last</th>
+            <th>View</th>
+        </tr>
+        </tfoot>
+    </table>
+    </center>
+</div>
+<script type='text/javascript'>
+$(document).ready(function () {
+$('#searchAddress').DataTable();
+});
+</script>";
+?>

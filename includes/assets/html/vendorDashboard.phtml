@@ -1,0 +1,38 @@
+<section>
+    <div>
+        <h1>VENDOR DASHBOARD HERE</h1>
+            <h2>To Do List</h2>
+            <ul>
+
+                <li>Generate New API Key</li>
+                <li>View Documentation</li>
+                <li>Search for Address</li>
+                <li>Search for Vehicles</li>
+                <li>Search for Patient Information</li>
+            </ul>
+            <div>
+            <label for="Due_Date">Your Payment is every month on the </label>
+                <?php echo getDueDate($connection, '1'); ?>
+            </div>
+            <div id="apiKey">
+                <label for="APIKey">Your API Key is</label>
+                    <input type="text" id="APIKey" value="<?php echo getAPIKey($connection, '1'); ?>" readonly />
+                <button onclick="copyKey()">Copy API Key</button>
+            </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+    function copyKey() {
+    // Get the text field
+    const copyText = document.getElementById('APIKey');
+
+    // Select the text field
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); // For mobile devices
+
+    // Copy the text inside the text field
+    navigator.clipboard.writeText(copyText.value);
+
+    }
+</script>

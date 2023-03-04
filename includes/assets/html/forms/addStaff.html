@@ -1,0 +1,25 @@
+<section id="staff__">
+    <center>
+    <div class="staff__container">
+        <form class="staff__form" action="includes/controllers/general.php" method="post">
+        <div class="staff__formContainer">
+            <h2>Add staff</h2>
+            <div class="staff__formInput">
+                <label for="staff_username">Username </label>
+                <input type="text" name="staff_username" value='' required>
+            </div>
+            <br />
+            <div class="staff__formInput">
+                <label for="staff_decision">Add / remove Staff: </label>
+                <select name="staff_decision">
+                    <option value="add">Add to Staff</option>
+                    <option value="remove">Remove from staff</option>
+                </select>
+            </div>
+            <br />
+            <input type="submit" name="staff__formButton">
+        </div>
+        </form>
+    </div>
+    </center>
+  </section>

@@ -1,0 +1,78 @@
+<div>     
+    <br/>
+    <center><h1>View Profile</h1>
+    <table id='viewUser' class='table table-striped' style='width:50%'>
+        <thead>
+            <tr>
+                <th>Phone</th>
+                <th>First</th>
+                <th>Middle</th>
+                <th>Last</th>
+                <th>Email</th>
+                <th>Street</th>
+                <th>Ctiy</th>
+                <th>State</th>
+                <th>Postal</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+<?php // Here we iterate through each row from the vehicle table to see which vehiclees were uploaded by the user.
+    $id = $_SESSION['userSearch_id'];
+
+    $query = "SELECT * FROM users WHERE id='$id' ";
+
+    $result = mysqli_query($connection, $query);
+    
+    $row = $result->fetch_assoc();
+
+    echo '<td>'. $row['phoneNumber'] .'</td>';
+    echo '<td>'. $row['firstName'] .'</td>';
+    echo '<td>'. $row['middleName'] .'</td>';
+    echo '<td>'. $row['lastName'] .'</td>';
+    echo '<td>'. $row['email'] .'</td>';
+
+    $hAQ = $row['homeAddressQuery'];
+
+    $query = "SELECT * FROM addresses WHERE addressQuery='$hAQ' ";
+
+    $result = mysqli_query($connection, $query);
+    
+    $row2 = $result->fetch_assoc();
+
+    echo '<td>' . $row2['numericals'] . " " . $row2['street'] . $row2['apartment'] . '</td>';
+    echo '<td>'. $row2['city'] .'</td>';
+    echo '<td>'. $row2['state'] .'</td>';
+    echo '<td>'. $row2['postal'] .'</td>';
+
+    echo '<td>'. $row['insuranceInfo'] .'</td>';
+    echo '<td>'. $row['epicAPI'] .'</td>';
+    echo '<td>'. $row['doctorAPI'] .'</td>';
+?>
+
+
+            </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+                <th>Phone</th>
+                <th>First</th>
+                <th>Middle</th>
+                <th>Last</th>
+                <th>Email</th>
+                <th>Street</th>
+                <th>Ctiy</th>
+                <th>State</th>
+                <th>Postal</th>
+        </tr>
+        </tfoot>
+    </table>
+    </center>
+</div>
+<script type='text/javascript'>
+$(document).ready(function () {
+$('#viewUser').DataTable();
+});
+</script>";
+?>

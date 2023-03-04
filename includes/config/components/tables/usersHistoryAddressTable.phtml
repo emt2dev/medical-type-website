@@ -1,0 +1,120 @@
+<div>     
+    <br/>
+    <center><h1>My Addresses</h1>
+    <table id='address' class='table table-striped' style='width:50%'>
+        <thead>
+            <tr>
+                <th>Home / Work</th>
+                <th>Status</th>
+                <th>Street</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Postal</th>
+                <th>Country</th>
+                <th>Date Added</th>
+            </tr>
+        </thead>
+        <tbody>
+<?php // Here we iterate through each row from the address table to see which addresses were uploaded by the user.
+    $id = $_SESSION['id'];
+
+    $hAQ = $_SESSION['homeAddressQuery'];
+    $wAQ = $_SESSION['workAddressQuery'];
+    $cLQ = $_SESSION['currentLocationQuery'];
+    $hxA = $_SESSION['addressHistory'];
+    $vxA = $_SESSION['vehicleHistory'];
+
+    $hxA_test = array($_SESSION['addressHistory']);
+
+    if ($hxA_test[0] < 1) {
+        unset($hxA_test);
+        echo '<td></td>';
+        echo '<td> No records found... </td>';
+        echo '<td></td>';
+    } else {
+        $hxA = array($_SESSION['addressHistory']);
+
+        foreach ($hxA as $hxID) {
+
+            $query = "SELECT * FROM addresses WHERE id='$hxID' ";
+
+            $result = mysqli_query($connection, $query);
+            
+            $row = $result->fetch_assoc();
+
+            unset($row['addressOccupants']);
+            unset($row['latitude']);
+            unset($row['longitude']);
+            unset($row['date_updated']);
+            unset($row['photo_path']);
+
+            echo '<tr>';
+                if ($row['addressQuery'] == $wAQ) {
+                    echo '<td>Work</td>';
+                } else if ($row['addressQuery'] == $hAQ) {
+                    echo '<td>Home</td>';
+                } else if ($row['addressQuery'] == $cLQ) {
+                    echo '<td>Home</td>';
+                } else {
+                    echo '
+                        <td>
+                        <form action="includes/controllers/general.php" method="post">
+                            <select name="commonAddress">
+                                <option value="work">Work</option>
+                                <option value="home">Home</option>
+                            </select>
+                            <input type="text"  name="commonAddressQuery" value="' . $row['addressQuery']. '" hidden />
+                            <button type="submit" name="commonAddress_Btn">Click to save</button>
+                        </form>
+                        </td>';
+                }
+
+                if ($row['id'] == $cLQ) {
+                    echo '
+                        <td>
+                            <form action="includes/controllers/general.php" method="post">
+                                <input type="text"  name="cLQ_num" value="' . $row['addressQuery']. '" hidden />
+                                <button type="submit" name="cLQ_Btn">Click to be away</button>
+                            </form>
+                        </td>';
+                } else {
+                    echo '
+                        <td>
+                            <form action="includes/controllers/general.php" method="post">
+                                <input type="text" name="cLQ_num" value="' . $row['addressQuery']. '" hidden />
+                                <button type="submit" name="cLQ_Btn">Click to be placed here</button>
+                            </form>
+                        </td>';
+                }
+
+                echo '<td>'. $row['numericals'] . " " . $row['street'] .'</td>';
+                echo '<td>'. $row['city'] .'</td>';
+                echo '<td>'. $row['state'] .'</td>';
+                echo '<td>'. $row['postal'] .'</td>';
+                echo '<td>'. $row['date_added'] .'</td>';
+            echo '</tr>';
+        };
+    } 
+?>
+        </tbody>
+        <tfoot>
+        <tr>
+            <th>Home / Work</th>
+            <th>Status</th>
+            <th>Street</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Postal</th>
+            <th>Country</th>
+            <th>Date Added</th>
+        </tr>
+        </tfoot>
+    </table>
+    </center>
+</div>
+<script type='text/javascript'>
+$(document).ready(function () {
+$('#address').DataTable();
+});
+</script>";
+?>
